@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BtcTrade.Net
+namespace BtcTrade.Net.Enums
 {
-    internal class BtcTradeHelper
+    public enum OrderType
     {
+        Limit,
+        LimitMaker
     }
 }

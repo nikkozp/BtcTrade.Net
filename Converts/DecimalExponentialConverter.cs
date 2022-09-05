@@ -22,6 +22,7 @@ namespace BtcTrade.Net.Converts
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             decimal amount = 0;
+
             if (decimal.TryParse(reader.Value.ToString(), NumberStyles.Any, CultureInfo.InvariantCulture, out amount))
                 return amount;
 

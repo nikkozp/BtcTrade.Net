@@ -40,7 +40,7 @@ namespace BtcTrade.Net.Clients
         /// <param name="options">The options to use for this client</param>
         public BtcTradeClient(BtcTradeClientOptions options) : base("BtcTrade", options)
         {
-            SpotApi = AddApiClient(new BtcTradeClientSpotApi(this, options));
+            SpotApi = AddApiClient(new BtcTradeClientSpotApi(log, this, options));
         }
         #endregion
 

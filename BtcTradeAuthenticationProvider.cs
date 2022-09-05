@@ -45,10 +45,13 @@ namespace BtcTrade.Net
             parameters.Add("nonce", nonce);
             parameters = new SortedDictionary<string, object>(parameters.ToDictionary(p => p.Key, p => p.Value).OrderBy(p => p.Key).ToDictionary(p => p.Key, p => p.Value));
 
-            if (String.IsNullOrEmpty(Token))
+            if (String.IsNullOrEmpty(Token) || uri.PathAndQuery.EndsWith("auth"))
             {
                 headers.Add("public_key", Credentials.Key.GetString());
-                headers.Add("api_sign", BytesToHexString(encryptor.ComputeHash(Encoding.UTF8.GetBytes($"{uri.SetParameters(parameters, arraySerialization)}{Credentials.Secret.GetString()}"))).ToLower());
+
+                var pramsString = parameters.ToDictionary(p => p.Key, p => p.Value).CreateParamString(true, ArrayParametersSerialization.Array);
+
+                headers.Add("api_sign", BytesToHexString(encryptor.ComputeHash(Encoding.UTF8.GetBytes($"{pramsString}{Credentials.Secret.GetString()}"))).ToLower());
             }
             else
                 headers.Add("token", Token);

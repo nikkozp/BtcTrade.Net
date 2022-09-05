@@ -10,6 +10,7 @@ namespace BtcTrade.Net.Enums
         Canceled,
         Filled,
         Rejected,
-        Pending
+        Pending,
+        Canceling
     }
 }

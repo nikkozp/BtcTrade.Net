@@ -16,10 +16,11 @@ namespace BtcTrade.Net.Clients.SpotApi
     public class BtcTradeClientSpotApi : RestApiClient
     {
         private readonly BtcTradeClient _baseClient;
+        private readonly Log _log;
 
         #region fields
 
-        internal BtcTradeClientOptions ClientOptions { get; }
+        internal BtcTradeClientOptions Options { get; }
         
 
         #endregion
@@ -38,10 +39,11 @@ namespace BtcTrade.Net.Clients.SpotApi
         #endregion
 
         #region ctor
-        internal BtcTradeClientSpotApi(BtcTradeClient baseClient, BtcTradeClientOptions options)
+        internal BtcTradeClientSpotApi(Log log, BtcTradeClient baseClient, BtcTradeClientOptions options)
             : base(options, options.SpotApiOptions)
         {
-            ClientOptions = options;
+            _log = log;
+            Options = options;
             _baseClient = baseClient;
 
             Account = new BtcTradeClientSpotApiAccount(this);
@@ -54,7 +56,7 @@ namespace BtcTrade.Net.Clients.SpotApi
         #endregion
 
         protected override AuthenticationProvider CreateAuthenticationProvider(ApiCredentials credentials)
-            => new BtcTradeAuthenticationProvider(credentials, ClientOptions.NonceProvider ?? new BtcTradeNonceProvider());
+            => new BtcTradeAuthenticationProvider(credentials, Options.NonceProvider ?? new BtcTradeNonceProvider());
 
         internal Uri GetUrl(string endpoint)
         {
@@ -74,19 +76,13 @@ namespace BtcTrade.Net.Clients.SpotApi
             return result;
         }
 
-        protected override TimeSyncInfo GetTimeSyncInfo()
-        {
-            throw new NotImplementedException();
-        }
+        public override TimeSyncInfo GetTimeSyncInfo()
+            => new TimeSyncInfo(_log, Options.SpotApiOptions.AutoTimestamp, Options.SpotApiOptions.TimestampRecalculationInterval, new TimeSyncState("BtcTrade Api") { LastSyncTime = DateTime.UtcNow });
 
-        public override TimeSpan GetTimeOffset()
-        {
-            throw new NotImplementedException();
-        }
+        public override TimeSpan GetTimeOffset() => TimeSpan.Zero;
+
 
         protected override Task<WebCallResult<DateTime>> GetServerTimestampAsync()
-        {
-            throw new NotImplementedException();
-        }
+            => Task.FromResult(new WebCallResult<DateTime>(null, null, null, null, null, null, null, null, DateTime.UtcNow, null));
     }
 }

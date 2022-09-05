@@ -17,7 +17,7 @@ namespace BtcTrade.Net.Converts
             new KeyValuePair<OrderStatus, string>(OrderStatus.New, "processing"),
             new KeyValuePair<OrderStatus, string>(OrderStatus.Filled, "processed" ),
             new KeyValuePair<OrderStatus, string>(OrderStatus.Canceled, "canceled"),
-            new KeyValuePair<OrderStatus, string>(OrderStatus.Canceled, "canceling"),
+            new KeyValuePair<OrderStatus, string>(OrderStatus.Canceling, "canceling"),
             new KeyValuePair<OrderStatus, string>(OrderStatus.Rejected, "core_error")
         };
     }

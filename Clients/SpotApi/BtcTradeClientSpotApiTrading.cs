@@ -33,7 +33,7 @@ namespace BtcTrade.Net.Clients.SpotApi
         public async Task<WebCallResult<BtcTradeOpenOrders>> GetOpenOrdersAsync(string symbol, CancellationToken ct = default)
         {
 
-            return await _baseClient.SendRequestInternalAsync<BtcTradeOpenOrders>(_baseClient.GetUrl($"my_orders/{symbol}"), HttpMethod.Post, ct, signed: true).ConfigureAwait(false);
+            return await _baseClient.SendRequestInternalAsync<BtcTradeOpenOrders>(_baseClient.GetUrl($"/my_orders/{symbol}"), HttpMethod.Post, ct, signed: true).ConfigureAwait(false);
         }
 
         public WebCallResult<BtcTradePlaceOrder> PlaceOrder(string symbol, OrderSide side, decimal price, decimal quantity, CancellationToken ct = default) => PlaceOrderAsync(symbol, side, price, quantity, ct).Result;
@@ -46,25 +46,25 @@ namespace BtcTrade.Net.Clients.SpotApi
                 { "price",  price.ToString().Replace(",",".")}
             };
 
-            return await _baseClient.SendRequestInternalAsync<BtcTradePlaceOrder>(_baseClient.GetUrl($"{side.ToString().ToLower()}/{symbol}"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+            return await _baseClient.SendRequestInternalAsync<BtcTradePlaceOrder>(_baseClient.GetUrl($"/{side.ToString().ToLower()}/{symbol}"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
         public WebCallResult<BtcTradePlaceOrder> MoveOrder(long orderId, decimal price, CancellationToken ct = default) => MoveOrderAsync(orderId, price, ct).Result;
         public async Task<WebCallResult<BtcTradePlaceOrder>> MoveOrderAsync(long orderId, decimal price, CancellationToken ct = default)
         {
-            return await _baseClient.SendRequestInternalAsync<BtcTradePlaceOrder>(_baseClient.GetUrl($"move/order/{orderId}/{price.ToString().Replace(",", ".")}"), HttpMethod.Post, ct, signed: true).ConfigureAwait(false);
+            return await _baseClient.SendRequestInternalAsync<BtcTradePlaceOrder>(_baseClient.GetUrl($"/move/order/{orderId}/{price.ToString().Replace(",", ".")}"), HttpMethod.Post, ct, signed: true).ConfigureAwait(false);
         }
 
-        public WebCallResult<BtcTradeQueryOrder> QueryOrder(long orderId, CancellationToken ct = default) => QueryOrderAsync(orderId, ct).Result;
-        public async Task<WebCallResult<BtcTradeQueryOrder>> QueryOrderAsync(long orderId, CancellationToken ct = default)
+        public WebCallResult<BtcTradeQueryOrder> GetOrder(long orderId, CancellationToken ct = default) => GetOrderAsync(orderId, ct).Result;
+        public async Task<WebCallResult<BtcTradeQueryOrder>> GetOrderAsync(long orderId, CancellationToken ct = default)
         {
-            return await _baseClient.SendRequestInternalAsync<BtcTradeQueryOrder>(_baseClient.GetUrl($"order/status/{orderId}"), HttpMethod.Post, ct, signed: true).ConfigureAwait(false);
+            return await _baseClient.SendRequestInternalAsync<BtcTradeQueryOrder>(_baseClient.GetUrl($"/order/status/{orderId}"), HttpMethod.Post, ct, signed: true).ConfigureAwait(false);
         }
 
         public WebCallResult<BtcTradeCancelOrder> CancelOrder(long orderId, CancellationToken ct = default) => CancelOrderAsync(orderId, ct).Result;
         public async Task<WebCallResult<BtcTradeCancelOrder>> CancelOrderAsync(long orderId, CancellationToken ct = default)
         {
-            return await _baseClient.SendRequestInternalAsync<BtcTradeCancelOrder>(_baseClient.GetUrl($"remove/order/{orderId}"), HttpMethod.Post, ct, signed: true).ConfigureAwait(false);
+            return await _baseClient.SendRequestInternalAsync<BtcTradeCancelOrder>(_baseClient.GetUrl($"/remove/order/{orderId}"), HttpMethod.Post, ct, signed: true).ConfigureAwait(false);
         }
 
     }

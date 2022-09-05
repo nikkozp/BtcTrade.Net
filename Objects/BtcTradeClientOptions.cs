@@ -12,9 +12,9 @@ namespace BtcTrade.Net.Objects
 
         public INonceProvider? NonceProvider { get; set; }
 
-
         private RestApiClientOptions _spotApiOptions = new RestApiClientOptions(BtcTradeApiAddresses.Default.RestClientAddress)
         {
+            AutoTimestamp = false,
             //RateLimiters = new List<IRateLimiter>
             //{
             //        new RateLimiter()
@@ -41,6 +41,7 @@ namespace BtcTrade.Net.Objects
             if (baseOn == null)
                 return;
 
+            //RequestTimeout = TimeSpan.FromSeconds(90);
             NonceProvider = baseOn.NonceProvider;
             _spotApiOptions = new RestApiClientOptions(baseOn.SpotApiOptions, null);
         }

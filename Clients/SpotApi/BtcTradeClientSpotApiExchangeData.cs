@@ -26,7 +26,7 @@ namespace BtcTrade.Net.Clients.SpotApi
         public WebCallResult<Dictionary<string, BtcTradeTicker>> GetTicker(CancellationToken ct = default) => GetTickerAsync(ct).Result;
         public async Task<WebCallResult<Dictionary<string, BtcTradeTicker>>> GetTickerAsync(CancellationToken ct = default)
         {
-            WebCallResult<Dictionary<string, object>> ticker = await _baseClient.SendRequestInternalAsync<Dictionary<string, object>>(_baseClient.GetUrl("ticker"), HttpMethod.Get, ct).ConfigureAwait(false);
+            WebCallResult<Dictionary<string, object>> ticker = await _baseClient.SendRequestInternalAsync<Dictionary<string, object>>(_baseClient.GetUrl("/ticker"), HttpMethod.Get, ct).ConfigureAwait(false);
 
             Dictionary<string, BtcTradeTicker> data = null;
 
@@ -51,7 +51,7 @@ namespace BtcTrade.Net.Clients.SpotApi
         public WebCallResult<BtcTradeOrderBook> GetOrderBook(string symbol, OrderSide side, CancellationToken ct = default) => GetOrderBookAsync(symbol, side, ct).Result;
         public async Task<WebCallResult<BtcTradeOrderBook>> GetOrderBookAsync(string symbol, OrderSide side, CancellationToken ct = default)
         {
-            var result = await _baseClient.SendRequestInternalAsync<BtcTradeOrderBook>(_baseClient.GetUrl($"trades/{side.ToString().ToLower()}/{symbol}"), HttpMethod.Get, ct).ConfigureAwait(false);
+            var result = await _baseClient.SendRequestInternalAsync<BtcTradeOrderBook>(_baseClient.GetUrl($"/trades/{side.ToString().ToLower()}/{symbol}"), HttpMethod.Get, ct).ConfigureAwait(false);
 
             return result;
         }
