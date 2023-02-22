@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BtcTrade.Net.Objects
 {
-    public class BtcTradeClientOptions : BaseRestClientOptions
+    public class BtcTradeClientOptions : ClientOptions
     {
         public static BtcTradeClientOptions Default { get; set; } = new BtcTradeClientOptions();
 

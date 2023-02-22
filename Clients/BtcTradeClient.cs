@@ -40,7 +40,7 @@ namespace BtcTrade.Net.Clients
         /// <param name="options">The options to use for this client</param>
         public BtcTradeClient(BtcTradeClientOptions options) : base("BtcTrade", options)
         {
-            SpotApi = AddApiClient(new BtcTradeClientSpotApi(log, this, options));
+            SpotApi = AddApiClient(new BtcTradeClientSpotApi(log, options));
         }
         #endregion
 
@@ -51,28 +51,6 @@ namespace BtcTrade.Net.Clients
         public static void SetDefaultOptions(BtcTradeClientOptions options)
         {
             BtcTradeClientOptions.Default = options;
-        }
-
-        protected override Error ParseErrorResponse(JToken error)
-        {
-            try
-            {
-                if (error["auth"] != null && (bool)(error["auth"]) == false && error["description"] == null)
-                    return new ServerError(0, "Невозможно выполнить оперцию. Нужна авторизация!");
-
-                return new ServerError(0, (string)error["description"]);
-            }
-            catch
-            {
-                return new ServerError(0, JsonConvert.SerializeObject(error));
-            }
-        }
-
-        internal Task<WebCallResult<T>> SendRequestInternal<T>(RestApiClient apiClient, Uri uri, HttpMethod method, CancellationToken cancellationToken,
-            Dictionary<string, object>? parameters = null, bool signed = false, HttpMethodParameterPosition? postPosition = null,
-            ArrayParametersSerialization? arraySerialization = null, int weight = 1, bool ignoreRateLimit = false) where T : class
-        {
-            return base.SendRequestAsync<T>(apiClient, uri, method, cancellationToken, parameters, signed, postPosition, arraySerialization, requestWeight: weight, ignoreRatelimit: ignoreRateLimit);
         }
     }
 }
