@@ -77,7 +77,7 @@ namespace BtcTrade.Net.Clients.SpotApi
         public override TimeSyncInfo GetTimeSyncInfo()
             => new TimeSyncInfo(_log, Options.SpotApiOptions.AutoTimestamp, Options.SpotApiOptions.TimestampRecalculationInterval, new TimeSyncState("BtcTrade Api") { LastSyncTime = DateTime.UtcNow });
 
-        public override TimeSpan GetTimeOffset() => TimeSpan.Zero;
+        public override TimeSpan? GetTimeOffset() => TimeSpan.Zero;
 
 
         protected override Task<WebCallResult<DateTime>> GetServerTimestampAsync()
